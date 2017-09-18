@@ -29,3 +29,11 @@ end
 ```bash
 bundle install
 ```
+
+5. capify your project
+Set `STAGES` to a comma separated list of all your environments.
+This will create your deployment config files.
+
+```bash
+bundle exec cap install STAGES=prod,test,...
+```
