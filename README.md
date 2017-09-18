@@ -71,3 +71,15 @@ set :default_env, { composer: "composer.phar" }
 set :file_permissions_users, ["www-data"]
 set :file_permissions_paths, [fetch(:cache_path), fetch(:log_path)]
 ```
+
+8. update environment specific settings in `config/deploy/*.rb`
+
+```ruby
+# config/deploy/prod.rb
+
+# Configure the server to deploy to and user to deploy as
+server "circlestrano.com", user: "deploy"
+
+# If you want a different branch deployed to each environment 
+#set :branch prod
+```
