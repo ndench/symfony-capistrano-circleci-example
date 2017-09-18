@@ -12,12 +12,13 @@ The following instructions are complied from:
 2. [install bundler](https://bundler.io/)
 
 ```bash
-gem install bundler
+$ gem install bundler
 ```
 
 3. create Gemfile
 
 ```ruby
+# Gemfile
 source 'https://rubygems.org' do
     gem 'capistrano',  '~> 3.9'
     gem 'capistrano-symfony', '~> 1.0.0.rc2'
@@ -27,7 +28,7 @@ end
 4. install capistrano
 
 ```bash
-bundle install
+$ bundle install
 ```
 
 5. capify your project
@@ -35,5 +36,12 @@ Set `STAGES` to a comma separated list of all your environments.
 This will create your deployment config files.
 
 ```bash
-bundle exec cap install STAGES=prod,test,...
+$ bundle exec cap install STAGES=prod,test,...
+```
+
+6. add the capistrano-symfony plugin to you Capfile
+
+```
+# Capfile
+require 'capistrano/symfony'
 ```
