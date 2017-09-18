@@ -45,3 +45,29 @@ $ bundle exec cap install STAGES=prod,test,...
 # Capfile
 require 'capistrano/symfony'
 ```
+
+7. update project deployment settings in `config/deploy.rb`
+
+```ruby
+# config/deploy.rb
+
+# Set your application name
+set :application, "circlestrano"
+
+# Set your repo url, capistrano will clone it for every deployment
+set :repo_url, "git@github.com:ndench/symfony-capistrano-circleci-example.git"
+
+# Set the location to deploy to on the remote server
+set :deploy_to, "/srv/www/grishue"
+
+# Add parameters.yml to the linked files to keep it between deployments
+append :linked_files, "app/config/parameters.yml"
+
+# I like to use composer installed as a .phar in the project root
+# If you like global composer, ignore this
+set :default_env, { composer: "composer.phar" }
+
+# Allow the web user to access the gache and log paths
+set :file_permissions_users, ["www-data"]
+set :file_permissions_paths, [fetch(:cache_path), fetch(:log_path)]
+```
