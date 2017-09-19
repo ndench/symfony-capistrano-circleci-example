@@ -1,0 +1,49 @@
+---
+ansible_python_interpreter: /usr/bin/python3
+
+common:
+  src: /srv/www/circlestrano/current
+  console_dir: bin
+
+nginx:
+  webroot: /srv/www/circlestrano/current/web
+  server_name: circlestrano.tk
+  version: '*'
+  enable_ssl: false
+
+php:
+  php_version: '*'
+  acl_version: '*'
+
+deploy:
+  deploy_key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEogIBAAKCAQEArvN0FFYjXwZjjHcr5mAsrR7Pr64xI/Rr3Aja1gtxazR3g1no
+    OboaSb/WyJgkoUfCbzziFZfUfOgh4BfulMPCjR8eU/MLAFRzHXlqLeHsEXWHJyhe
+    5pXpRA33AnSUVT3zlAS+InUFOPS2uq7EmD2Ajj6AOkHDbCi9Pe+jJdO6pVa6iyHo
+    /4BhL3St0KlfgdWxetDWJ5Dt4syourdCSXeps4OcR1/IHHqbDIV0m8Y1Ry3DFK4F
+    hXjEXX4gylmq3ZYD5OUAaSr4vsSF6FVXYybz8IIK+WG5iJsgjwFg0yNgqZP6XzD8
+    BdoDy7PomQGk8Icv8Y5hADEW7QG/nDjHoItt9QIDAQABAoIBAHvV3aOLeUwI5KwH
+    qq5OAzGjbpTG8welOjesmOILhYPBxprWJ/e8kGEFho3Ei6ERf0Jn0QxBxWmIknnh
+    1sG8c1ia30fC8FWScU06pPrHQOb2zuzbuZj0IgJG9EHrrRdNW725QbB4LnMrXLB1
+    hrjQR8/n07Ho3OARUiqmFlBvN11SA8XdSNcXimj00pUIvhm84c5CeU2PCXM1up/L
+    5i3ySbaXEkEJ0+YkNxQsl4NTFtwkhMqpsi9nzgae6EnlXPk5a48PS7FAO16wKmv0
+    nBm4Brd5gVrWUbdXPWhrIpzbrPw0+Xp+qqOAHggNZy8E+hiYxtsWu1ORBt+FMz3M
+    Cp2rSqECgYEA2oK6707Sq/U6wrKIoo8Z+lB5Nz38lb4cEBTmigt0II9IfYMzJv7Z
+    cTEdULRXR97GLD+TAj9wPCzpSgbI3KxxkatKEu7ZhCo7IR+OC4YgszcBrdOZf8NZ
+    Ioy8VlVpDsBntRseoXlVXrOW4i/6I6LBxHDJ3AtkxDQmGnPsG60ZMrkCgYEAzPeG
+    tWmenhA3vyWMbSLh+Pv+9k88G7EXfv6d7r/zdN9gjxLeT3l392BxvR2xonQfu4Y3
+    FLpqAPX8Xg7KeZmzPWeCYIJK+/YzdrgKYpIFZ/Vv6fwO5KYW2X6YFucCVRcU++kn
+    HR757X25Wmweat+MxP+A4E8E2kx+ztKOZTRqpx0CgYBy4AOSx+eti3Dm5qE6hOzt
+    Ud1IE4h02Ms8ESDaNgdJDsrXYWBFAfoireVxhj3UhOO+Y3XP2rYQjLPgvQxgJzBV
+    mq2IopUsDF+lnEc6+7q5PRPe5L1wE60Kot5orOJcZP6gka9ayMT+0n9iTkK89VXV
+    Bk65JixFkfzuLz9TlX8H0QKBgG/5Tetvnwrk+z9+qN+6bc8TA+/Vy5WpQpfLS8Zx
+    sPQJUHv5J+AtEN/hHWHehfulCuzsXs0BJgYOXGeaFv0lfakvEifdJk/N6cGSu4Gs
+    Gi34BMLEQ/Kf1d3N7hKc80Y/DOSuNAMRuCIJTChc5qUmKYY5u1NPd+w2XBRrLQWX
+    BCj1AoGAHYUoYW8HM0H/2qhmwvUXegkTLdv2qwMO/D1O4ONpvE9tvQyhcCzVna5q
+    ywmt3K4E5YnEZgRUvih8esGM+57it2kMFJaJodcExlWERK0JhXFfUIeaDH9G/YcL
+    +PYUYXlaZ80kue8iGzMnDjFEHWW1KXUpsGhEneZkaAx9hc5HVGs=
+    -----END RSA PRIVATE KEY-----
+  authorized_keys: |
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC9EWa1hm0A7lQaFTRjLUk0xytNzT5cwvGLOwSqMVCBP2v067MmK6oJt03KKbnRAK/clU4rIlFdR3JwfUuloiUoEJwwEWhhAGZcjgHdBnJAHDFFjKos8UhWRCZMWTyrS7bZZXFP+7ZEgI3IrXK8JW6XL+gKNKue8S44tINb0qVLeA1cBj/ikDYJvOetbW1RpHFWxC6p1XFM2FoTwPqmMOqYkqbUGZ4/wa9taS4lZ66qeXR6PxZEjDL39WmKmnvJjdXXvXZK2PrRLKHh/UDgZShloT19ZgT9GiaT1gf34CLspzSutll4nKInw+BjBi+D8M9SwYznzeFm96IWgb1CCVf/ nathan@dingleberry
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUfguk2QNowarnly+GRBsqlg//nV67fvXVJW4W3keZjM6i8XBvZT5S+i/4M+TkGsjGye4NRdIaRmHrjYQNW9tnLPZOK5s002EZB9vHOvQgxfqtyY6VRnRHHyfyb2Cc1B+EaX/zLsult/v7zSce9FYPjuxisb2Qt0TAvnwlMkPuvw88HRmAJE59VR4KXF0H92t+rsU5IjrJwhdnuuH8sihjepRAKkRlVmC2ItRNDNUiLAUAjBOBwDYnAFqIys9h8XDWPlPEt6DLBdFExO7U6qeSujBN+ipJMOt4ClhaX1r285uMTh+4cmDpl3c+Q9RK5/MMjKLUYunFCm+gWqLILvmp

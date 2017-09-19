@@ -1,0 +1,2 @@
+[prod]
+circlestrano.tk ansible_user=root

@@ -78,7 +78,7 @@ set :file_permissions_paths, [fetch(:cache_path), fetch(:log_path)]
 # config/deploy/prod.rb
 
 # Configure the server to deploy to and user to deploy as
-server "circlestrano.com", user: "deploy"
+server "circlestrano.tk", user: "deploy"
 
 # If you want a different branch deployed to each environment 
 #set :branch prod
