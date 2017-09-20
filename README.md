@@ -65,7 +65,7 @@ append :linked_files, "app/config/parameters.yml"
 
 # I like to use composer installed as a .phar in the project root
 # If you like global composer, ignore this
-set :default_env, { composer: "composer.phar" }
+SSHKit.config.command_map[:composer] = "php composer.phar"
 
 # Allow the web user to access the gache and log paths
 set :file_permissions_users, ["www-data"]
@@ -100,11 +100,11 @@ $ ssh root@circlestrano.tk 'chown deploy:deploy /srv/www/circlestrano/shared/app
 $ cap prod deploy
 ```
 
-9. set up circleci
+11. set up circleci
     - log into [circleci](https://circleci.com) with your GitHub account.
     - go to the projects page and create a new project on your repo
 
-10. circlelify your project
+12. circlelify your project
 Create .circle/config.yml with your circleci configuration.
 Now when you push to master it will automatically build and run tests!
 
