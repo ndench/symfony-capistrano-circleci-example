@@ -20,12 +20,13 @@ set :deploy_to, "/srv/www/circlestrano"
 # Default value for :pty is false
 # set :pty, true
 
+set :sessions_path, fetch(:var_path) + "/sessions"
+
 # Default value for :linked_files is []
 append :linked_files, "app/config/parameters.yml"
 
 # Default value for linked_dirs is ["var/logs"]
-append :linked_dirs, "var/sessions"
-
+append :linked_dirs, fetch(:sessions_path)
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
@@ -38,9 +39,7 @@ SSHKit.config.command_map[:composer] = "php composer.phar"
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-set :sessions_path, fetch(:var_path) + "/sessions"
-
-# Use acl to set permissiosn
+# Use acl to set permission
 set :permission_method, :acl
 
 # Set file permissions

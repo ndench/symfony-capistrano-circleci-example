@@ -60,16 +60,25 @@ set :repo_url, "git@github.com:ndench/symfony-capistrano-circleci-example.git"
 # Set the location to deploy to on the remote server
 set :deploy_to, "/srv/www/grishue"
 
+# Create your own variables
+set :sessions_path, fetch(:var_path) + "/sessions"
+
 # Add parameters.yml to the linked files to keep it between deployments
 append :linked_files, "app/config/parameters.yml"
+
+# Link the sessions dir across deployments so it doesn't log users out
+append :linked_dirs, fetch(:sessions_path)
 
 # I like to use composer installed as a .phar in the project root
 # If you like global composer, ignore this
 SSHKit.config.command_map[:composer] = "php composer.phar"
 
-# Allow the web user to access the gache and log paths
+# Use acl to set permission
+set :permission_method, :acl
+
+# Allow the web user to access the cache, log path, session, and anything else in var
 set :file_permissions_users, ["www-data"]
-set :file_permissions_paths, [fetch(:cache_path), fetch(:log_path)]
+set :file_permissions_paths, ["var", fetch(:cache_path), fetch(:log_path), fetch(:sessions_path)]
 ```
 
 8. update environment specific settings in `config/deploy/*.rb`
