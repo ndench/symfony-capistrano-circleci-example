@@ -83,3 +83,33 @@ server "circlestrano.tk", user: "deploy"
 # If you want a different branch deployed to each environment 
 #set :branch prod
 ```
+
+9. circlelify your project
+Create .circle/config.yml with your circleci configuration.
+
+```yaml
+# .circle/config.yml
+version: 2
+jobs:
+  build:
+    docker:
+      - image: php:7.1.9
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "composer.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-{{ checksum "composer.json" }}
+        
+      - run: vendor/bin/phpunit --coverage-text=coverage.txt
+```

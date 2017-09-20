@@ -2,9 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.1.5-fpm
-      
-    working_directory: ~/circlestrano
+      - image: php:7.1.9
 
     steps:
       - checkout
