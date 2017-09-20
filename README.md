@@ -105,35 +105,62 @@ $ cap prod deploy
     - go to the projects page and create a new project on your repo
 
 12. circlelify your project
-Create .circle/config.yml with your circleci configuration.
+Create circle.yml with your circleci configuration.
 Now when you push to master it will automatically build and run tests!
 
 ```yaml
-# .circle/config.yml
-version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/php:7.1
+# circle.yml
+machine:
+  php:
+    version: 7.1.3
 
-    steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "composer.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: php composer.phar install --no-interaction --prefer-dist --optimize-autoloader
-
-      - save_cache:
-          paths:
-            - ./vendor
-          key: v1-dependencies-{{ checksum "composer.json" }}
-        
-      - run: vendor/bin/phpunit --coverage-text=build/text/coverage.txt --log-junit=build/junit/junit.xml
-
-      - store_test_results:
-          path: build/junit
+test:
+  override:
+    - vendor/bin/phpunit --coverage-text=coverage.txt
 ```
+
+13. create a webhook
+Create an (incoming-webhook)[https://api.slack.com/incoming-webhooks] in slack, and save the
+webhook url.
+
+Put that webhook into a `scripts/notify.sh` script.
+This script will be run after the auto deployment, so you get notified of it's success.
+
+```bash
+#!/usr/bin/env bash
+
+HERE='<!here>'
+COMMITMSG=$(git log --format=%B -n 1 $CIRCLE_SHA1)
+COVERAGE=""
+
+if [ -f "build/coverage.txt" ]; then
+  COVERAGE=$(grep Summary --after-context 3 grishue/coverage.txt | grep Lines | tr --squeeze-repeats ' ' | cut -d\  -f3)
+  COVERAGE="\nTest Coverage: $COVERAGE"
+fi
+
+curl -X POST -H 'Content-type: application/json' --data "{\"text\": \"$HERE Deployed branch \`$CIRCLE_BRANCH\` of \`$CIRCLE_PROJECT_REPONAME\` to update it to\n \`\`\`$COMMITMSG\`\`\` :tada: :rocket: $COVERAGE\"}" https://hooks.slack.com/services/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
+```
+
+14. continuous deployment
+Configure CircleCi for auto deployment.
+
+```yaml
+# circle.yml
+deployment:
+  master:
+    branch: master
+    commands:
+      - bundle install
+      - bundle exec cap prod deploy REVISION=$CIRCLE_SHA1
+      - scripts/notify.sh
+
+```
+
+15. add ssh key to circleci project
+    - generate an ssh key: `ssh-keygen`
+    - go to projects -> settings -> ssh permissions
+    - click 'add ssh key'
+    - paste in the contents of the private key you generated
+    - on your server, add the contents of the public key to `~/.ssh/authorized_keys` for the deploy user
+
+16. enjoy your continuous deployments!
