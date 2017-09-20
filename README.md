@@ -41,7 +41,7 @@ $ bundle exec cap install STAGES=prod,test,...
 
 6. add the capistrano-symfony plugin to you Capfile
 
-```
+```ruby
 # Capfile
 require 'capistrano/symfony'
 ```
@@ -84,8 +84,29 @@ server "circlestrano.tk", user: "deploy"
 #set :branch prod
 ```
 
-9. circlelify your project
+9. copy parameters.yml to your server
+Make sure you copy up the correct parameters file, I'm just using the development one.
+This will be symlinked into `app/config/parameters.yml` during the deploy.
+Make sure you change the owner to the `deploy user`.
+
+```bash
+$ scp app/config/parameters.yml root@circlestrano.tk:/srv/www/circlestrano/shared/app/config/parameters.yml
+$ ssh root@circlestrano.tk 'chown deploy:deploy /srv/www/circlestrano/shared/app/config/parameters.yml'
+```
+
+10. deploy!
+
+```bash
+$ cap prod deploy
+```
+
+9. set up circleci
+    - log into [circleci](https://circleci.com) with your GitHub account.
+    - go to the projects page and create a new project on your repo
+
+10. circlelify your project
 Create .circle/config.yml with your circleci configuration.
+Now when you push to master it will automatically build and run tests!
 
 ```yaml
 # .circle/config.yml
@@ -93,7 +114,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: php:7.1.9
+      - image: circleci/php:7.1
 
     steps:
       - checkout
@@ -111,5 +132,8 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
         
-      - run: vendor/bin/phpunit --coverage-text=coverage.txt
+      - run: vendor/bin/phpunit --coverage-text=build/text/coverage.txt --log-junit=build/junit/junit.xml
+
+      - store_test_results:
+          path: build/junit
 ```

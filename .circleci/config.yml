@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: php:7.1.9
+      - image: circleci/php:7.1
 
     steps:
       - checkout
@@ -20,4 +20,7 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "composer.json" }}
         
-      - run: vendor/bin/phpunit --coverage-text=coverage.txt
+      - run: vendor/bin/phpunit --coverage-text=build/text/coverage.txt --log-junit=build/junit/junit.xml
+
+      - store_test_results:
+          path: build/junit
